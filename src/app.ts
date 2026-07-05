@@ -2,6 +2,7 @@ import "./models/index.js";
 
 import express from 'express';
 import "dotenv/config";
+import cors from 'cors';
 import queryHandler from './middlewares/queryHandler.js';
 import { errorHandler, notFound } from './middlewares/errorHandler.js';
 import dbConnection from './configs/dbConnection.js';
@@ -11,6 +12,12 @@ import indexRouter from './routes/index.js';
 const app = express()
 
 app.use(express.json());
+
+// CORS:
+app.use(cors({
+    // origin: 'https://your-frontend-domain.com' // TODO: Buraya deploy ettiğin frontend adresini yazmalısın.
+    origin: '*' // Geçici olarak tüm isteklere izin ver.
+}));
 
 // Nested Query
 app.set("query parser", "extended");
@@ -23,7 +30,7 @@ app.use('/', indexRouter );
 
 const PORT = process.env.PORT || 3000;
 
-app.all("/health", (req, res) => {
+app.all("/health", (req: express.Request, res: express.Response) => {
     res.status(200).json({ status: "ok" });
 });
 
