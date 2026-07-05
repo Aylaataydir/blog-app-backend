@@ -15,8 +15,8 @@ app.use(express.json());
 
 // CORS:
 app.use(cors({
-    // origin: 'https://your-frontend-domain.com' // TODO: Buraya deploy ettiğin frontend adresini yazmalısın.
-    origin: '*' // Geçici olarak tüm isteklere izin ver.
+    origin: "https://daily-blog-web.vercel.app/"
+   
 }));
 
 // Nested Query
