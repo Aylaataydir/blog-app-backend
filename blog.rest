@@ -177,7 +177,7 @@ Content-Type: application/json
 Authorization: {{accessToken}}
 
 {
-  "name": "Category A"
+  "name": "Health"
 }
 
 ###

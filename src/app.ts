@@ -15,7 +15,7 @@ app.use(express.json());
 
 // CORS:
 app.use(cors({
-    origin: "https://daily-blog-web.vercel.app/"
+    origin: "https://daily-blog-web.vercel.app"
    
 }));
 
