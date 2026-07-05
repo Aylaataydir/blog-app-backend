@@ -7,8 +7,14 @@
 import mongoose from "mongoose";
 
 const dbConnection = async function () {
+    const dbUri = process.env.DB_URI;
+    if (!dbUri) {
+        console.error("! DB_URI is not defined in environment variables !");
+        process.exit(1); // Exit the process with an error code
+    }
+
   await mongoose
-    .connect(process.env.DB_URI)
+    .connect(dbUri)
     .then(() => console.log("* DB Connected *"))
     .catch((err) => {
       console.log("! DB Not Connected !");
