@@ -77,7 +77,7 @@ export const register = async (
     throw new CustomError('Email or username is already registered.', 409);
   }
 
-  const newUser = await User.create(validatedData)
+  const newUser = await User.create(validatedData as any)
 
   // console.log('newUser', newUser)
 
