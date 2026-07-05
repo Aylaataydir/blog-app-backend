@@ -1,0 +1,254 @@
+@baseUrl = http://127.0.0.1:8000
+# login isteğinden dönen response body'sindeki accessToken'ı yakala
+@accessToken = Bearer {{login.response.body.bearer.accessToken}}
+
+
+# @name home
+GET {{baseUrl}}
+
+###
+
+# @name login
+post {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "login": "test",
+    "password": "Test1234."
+}
+
+###
+
+# @name register
+post {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "test",
+  "email": "test@example.com",
+  "password": "Test1234.",
+  "firstName": "test",
+  "lastName": "test"
+}
+
+###
+
+# @name logout
+post {{baseUrl}}/auth/logout
+Authorization:{{accessToken}}
+
+###
+
+# @name refresh
+post {{baseUrl}}/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken":"{{login.response.body.bearer.refreshToken}}"
+}
+
+### -----------------------------------
+
+# @name userList
+get {{baseUrl}}/users
+Authorization:{{accessToken}}
+
+###
+
+# @name userRead
+get {{baseUrl}}/users/6a465bf8aee37c77fdd95e7b
+Authorization:Bearer {{accessToken}}
+
+###
+
+# @name userUpdate
+put {{baseUrl}}/users/6a2bd1a4263aca87f222f7a3
+Content-Type: application/json
+Authorization:{{accessToken}}
+
+{
+  "username": "test2",
+  "email": "test20@test.com",
+  "firstName": "test2",
+  "lastName": "test2"
+}
+
+###
+
+# @name userUpdatePassword
+put {{baseUrl}}/users/6a2bd1a4263aca87f222f7a3/password
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+{
+  "currentPassword": "Test1234.",
+  "newPassword": "Test21234.",
+  "concommentsPassword": "Test21234."
+
+}
+
+###
+
+# @name UserDelete
+delete {{baseUrl}}/users/6a2bd1a4263aca87f222f7a3
+Authorization: {{accessToken}}
+
+
+### ---------------------------
+
+
+# @name blogList
+get {{baseUrl}}/blogs
+Authorization: {{accessToken}}
+
+
+###
+
+# @name blogRead
+get {{baseUrl}}/blogs/6a47b351a889e67c1dd99292
+Authorization: {{accessToken}}
+
+
+###
+
+# @name blogCreate
+post {{baseUrl}}/blogs
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+{
+  "categoryId": "6a47a3bd3176988c1a3d1b7b",
+  "title": "Node.js ve TypeScript",
+  "content": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique labore repellendus quibusdam consequuntur quae illum excepturi maxime expedita voluptatum, numquam rem distinctio pariatur magnam.</p><p>Fugit dicta quos porro dolor, assumenda aperiam magnam sit eaque voluptate corporis. Facilis voluptatem ea aperiam eveniet hic atque ducimus doloribus, dolorem, vero labore porro earum, nostrum dolore vitae suscipit.</p>",
+  "image": "https://geekflare.com/wp-content/uploads/2016/04/featured-image-generator.jpg",
+  "isPublish": true
+}
+
+###
+
+# @name blogUpdate
+put {{baseUrl}}/blogs/6a48d8f65b7a3a265d843c62
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+{
+  "categoryId": "6a4792ccc515faef705038e1",
+  "title": "Node.js ve TypeScr",
+  "content": "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique labore repellendus quibusdam consequuntur quae illum excepturi maxime expedita voluptatum, numquam rem distinctio pariatur magnam.</p>",
+  "image": "https://geekflare.com/wp-content/uploads/2016/04/featured-image-generator.jpg",
+  "isPublish": true
+}
+
+###
+
+# @name blogDelete
+delete {{baseUrl}}/blogs
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+###
+
+# @name blogPostLike
+post {{baseUrl}}/blogs/6a47b351a889e67c1dd99292/postLike
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+
+
+
+###----------------------------------
+
+
+# @name categoryList
+get {{baseUrl}}/categories
+Authorization: {{accessToken}}
+
+###
+
+# @name categoryRead
+get {{baseUrl}}/categories/6a47a3187ddadf3df4f1a860
+Authorization: {{accessToken}}
+
+###
+
+# @name categoryCreate
+post {{baseUrl}}/categories
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+{
+  "name": "Category A"
+}
+
+###
+# @name categoryUpdate
+put {{baseUrl}}/categories/6a47a3187ddadf3df4f1a860
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+{
+  "name": "Category B"
+}
+
+###
+
+# @name categoryDelete
+delete {{baseUrl}}/categories/6a47a3187ddadf3df4f1a860
+Authorization: {{accessToken}}
+
+
+###------------------------------------
+
+
+# @name commentsList
+get {{baseUrl}}/comments
+Authorization: {{accessToken}}
+
+###
+
+# @name commentsCreate
+post {{baseUrl}}/comments
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+{
+    "blogId": "6a47b351a889e67c1dd99292",
+    "comment": "Bu yazı gerçekten çok faydalı olmuş, teşekkürler!"
+}
+
+###
+
+# @name commentsRead
+get {{baseUrl}}/comments/6a4920428af7239a4ff0eb0f
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+{
+  "name": "comments a3",
+  "phone": "1234567892",
+  "address": "123 Main St, City, Country"
+}
+
+###
+
+# @name commentsUpdate
+put {{baseUrl}}/comments/6a491eb26e4e97eb9cd799f4
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+{
+    "blogId": "6a491e8a6e4e97eb9cd799f3",
+    "comment": "Bu yazı gerçekten"
+}
+
+###
+
+# @name commentsDelete
+delete {{baseUrl}}/comments/6a491eb26e4e97eb9cd799f4
+Authorization: {{accessToken}}
+
+###
+
+
+
+### --------------------------------------
