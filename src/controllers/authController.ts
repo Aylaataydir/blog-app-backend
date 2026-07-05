@@ -94,18 +94,7 @@ export const register = async (
   });
 };
 
-/* ------------------------------------------------------- */
-// Auth: Login
-/* ------------------------------------------------------- */
-    new: true,
-    bearer: {
-      accessToken,
-      refreshToken
-    },
-    user: toUserDTO(newUser),
-  })
 
-}
 
 
 export const logout = async (req: Request, res: Response) => {
