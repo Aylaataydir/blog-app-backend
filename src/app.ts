@@ -14,10 +14,22 @@ const app = express()
 app.use(express.json());
 
 // CORS:
+const allowedOrigins = [
+    "https://daily-blog-web.vercel.app",
+    "http://localhost:5173"
+];
+
 app.use(cors({
-    origin: "https://daily-blog-web.vercel.app"
-   
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    }
 }));
+
+
 
 // Nested Query
 app.set("query parser", "extended");

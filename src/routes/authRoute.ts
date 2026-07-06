@@ -9,7 +9,7 @@ import authentication from '../middlewares/authentication.js';
 
 const router = Router();
 
-router.post("/login",validateBody(loginSchema), login);
+router.post("/login", validateBody(loginSchema), login);
 router.post("/register", validateBody(createUserSchema), register);
 router.post("/logout", authentication, logout);
 router.post("/refresh", refresh);
