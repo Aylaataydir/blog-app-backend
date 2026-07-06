@@ -13,8 +13,8 @@ post {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-    "login": "test",
-    "password": "Test1234."
+    "login": "admin",
+    "password": "AdminAyla123!"
 }
 
 ###

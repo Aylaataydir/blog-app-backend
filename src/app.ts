@@ -20,13 +20,7 @@ const allowedOrigins = [
 ];
 
 app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    }
+    origin: allowedOrigins
 }));
 
 
@@ -38,7 +32,7 @@ app.set("query parser", "extended");
 app.use(queryHandler);
 
 // Routes:
-app.use('/', indexRouter );
+app.use('/', indexRouter);
 
 const PORT = process.env.PORT || 3000;
 
