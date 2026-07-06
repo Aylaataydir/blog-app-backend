@@ -67,7 +67,6 @@ export const read = async (
     res: Response
 ): Promise<void> => {
 
-    const id = req.params
 
     // check if user logged in
 
@@ -76,12 +75,12 @@ export const read = async (
         { new: true }
     )
         .populate({ path: "categoryId", select: "name" })
-        .populate({ path: "userId", select: "username firstName lastName" })
+        .populate({ path: "userId", select: "username firstName lastName avatar" })
         .populate({
             path: "comments",
             populate: {
                 path: "userId",
-                select: "username firstName lastName"
+                select: "username avatar"
             }
         });
 

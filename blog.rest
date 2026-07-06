@@ -177,17 +177,17 @@ Content-Type: application/json
 Authorization: {{accessToken}}
 
 {
-  "name": "Health"
+  "name": "Other"
 }
 
 ###
 # @name categoryUpdate
-put {{baseUrl}}/categories/6a47a3187ddadf3df4f1a860
+put {{baseUrl}}/categories/6a4b9dd755e99f5ff99a1593
 Content-Type: application/json
 Authorization: {{accessToken}}
 
 {
-  "name": "Category B"
+  "name": "Decoration"
 }
 
 ###

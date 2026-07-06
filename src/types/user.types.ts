@@ -30,6 +30,7 @@ export interface UserDTO {
     firstName: string;
     lastName: string;
     email: string;
+    avatar: string;
     createdAt: Date;
     updatedAt: Date;
 }

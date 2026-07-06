@@ -88,8 +88,10 @@ export const register = async (
 
   res.status(201).send({
     error: false,
-    accessToken,
-    refreshToken,
+    bearer: {
+      accessToken,
+      refreshToken,
+    },
     user: toUserDTO(newUser)
   });
 };

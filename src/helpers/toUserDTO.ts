@@ -19,6 +19,7 @@ export function toUserDTO(user: UserDocument | UserDocument[] | null): UserDTO |
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        avatar: user.avatar,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
     };
