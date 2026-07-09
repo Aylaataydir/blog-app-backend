@@ -17,6 +17,8 @@ export interface IBlog {
     comments: Types.ObjectId[];
 
     likes: Types.ObjectId[];
+    
+    saves: Types.ObjectId[];
 
     countOfVisitors: number;
 }

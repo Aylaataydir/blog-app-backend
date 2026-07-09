@@ -7,10 +7,11 @@ import CustomError from "../helpers/customError.js";
 import { toUserDTO } from "../helpers/toUserDTO.js";
 import User from "../models/User.js";
 import type { ChangePasswordInput, UpdateUserInput } from '../validations/user.validation.js';
+import type { BlogDocument } from '../types/blog.types.js';
 
 
 export const list = async (
-    req: Request, 
+    req: Request,
     res: Response
 ): Promise<void> => {
     /* 
@@ -47,36 +48,35 @@ export const list = async (
 
 
 export const read = async (
-    req: Request<{id: string}>, 
+    req: Request<{ id: string }>,
     res: Response
 ): Promise<void> => {
-    /* 
-            #swagger.tags = ['Users']
-            #swagger.summary = 'Get Single User'
-        */
 
+    if (req.params.id !== req.user._id.toString()) {
+        throw new CustomError('You cannot access another user\'s profile', 403)
+    }
 
-    console.log('userId', req.params)
-
-    const userId = req.user._id
-
-    console.log('userId var', userId)
-
-    const data = await User.findOne({ _id: userId });
+    const data = await User.findById(req.params.id)
+        .select('-password')
+        .populate('likedBlogs')
+        .populate('savedBlogs')
 
     if (!data) {
         throw new CustomError('User not found', 404);
     }
 
-
     res.status(200).send({
         error: false,
-        user: toUserDTO(data)
+        user: {
+            ...toUserDTO(data),
+            likedBlogs: data.likedBlogs as BlogDocument[],
+            savedBlogs: data.savedBlogs as BlogDocument[],
+        }
     });
 }
 
 export const update = async (
-    req: Request<{id: string}, {}, UpdateUserInput>,
+    req: Request<{ id: string }, {}, UpdateUserInput>,
     res: Response
 ): Promise<void> => {
     /* 
@@ -101,7 +101,7 @@ export const update = async (
 }
 
 export const updatePassword = async (
-    req: Request<{id: string}, {}, ChangePasswordInput>, 
+    req: Request<{ id: string }, {}, ChangePasswordInput>,
     res: Response
 ): Promise<void> => {
 
@@ -130,7 +130,7 @@ export const updatePassword = async (
 }
 
 export const deletee = async (
-    req: Request<{id:string}, {}, {}>, 
+    req: Request<{ id: string }, {}, {}>,
     res: Response
 ): Promise<void> => {
     /* 

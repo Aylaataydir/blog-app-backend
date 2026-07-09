@@ -7,6 +7,8 @@ import type { CreateBlogInput, UpdateBlogInput } from "../validations/blog.valid
 import Category from "../models/Category.js";
 import Comments from "../models/Comment.js";
 import CustomError from "../helpers/customError.js";
+import User from "../models/User.js";
+import mongoose from "mongoose";
 
 
 export const list = async (
@@ -161,15 +163,111 @@ export const postLike = async (
 
     const alreadyLiked = blog.likes.some(id => id.toString() === userId)
 
-    await Blog.findByIdAndUpdate(req.params.id,
-        alreadyLiked
-            ? { $pull: { likes: userId } }
-            : { $addToSet: { likes: userId } },
-        { new: true }
-    )
+    const session = await mongoose.startSession() 
+
+    try {
+        session.startTransaction()
+
+        if (alreadyLiked) {
+            await Blog.findByIdAndUpdate(
+                blog._id,
+                { $pull: { likes: userId } },
+                { session }
+            )
+
+            await User.findByIdAndUpdate(
+                userId,
+                { $pull: { likedBlogs: blog._id } },
+                { session }
+            )
+        } else {
+            await Blog.findByIdAndUpdate(
+                blog._id,
+                { $addToSet: { likes: userId } },
+                { session }
+            )
+
+            await User.findByIdAndUpdate(
+                userId,
+                { $addToSet: { likedBlogs: blog._id } },
+                { session }
+            )
+        }
+
+        await session.commitTransaction()
+    } catch (err) {
+        await session.abortTransaction()
+        throw err
+    } finally {
+        session.endSession()
+    }
+
 
     res.status(200).send({
         error: false,
-        liked: !alreadyLiked
+        liked: !alreadyLiked,
+        blogId: blog._id
+    })
+}
+
+
+export const saveBlog = async (
+    req: Request<{ id: string }>,
+    res: Response
+): Promise<void> => {
+
+
+    const blog = await Blog.findById(req.params.id)
+
+    if (!blog) throw new CustomError('Blog not found', 404)
+
+    const userId = req.user._id.toString()
+
+    const alreadyLiked = blog.likes.some(id => id.toString() === userId)
+
+    const session = await mongoose.startSession() 
+
+    try {
+        session.startTransaction()
+
+        if (alreadyLiked) {
+            await Blog.findByIdAndUpdate(
+                blog._id,
+                { $pull: { saves: userId } },
+                { session }
+            )
+
+            await User.findByIdAndUpdate(
+                userId,
+                { $pull: { savedBlogs: blog._id } },
+                { session }
+            )
+        } else {
+            await Blog.findByIdAndUpdate(
+                blog._id,
+                { $addToSet: { saves: userId } },
+                { session }
+            )
+
+            await User.findByIdAndUpdate(
+                userId,
+                { $addToSet: { savedBlogs: blog._id } },
+                { session }
+            )
+        }
+
+        await session.commitTransaction()
+    } catch (err) {
+        await session.abortTransaction()
+        throw err
+    } finally {
+        session.endSession()
+    }
+
+
+    res.status(200).send({
+        error: false,
+        liked: !alreadyLiked,
+        blogId: blog._id
     })
 }

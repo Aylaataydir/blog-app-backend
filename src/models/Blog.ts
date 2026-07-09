@@ -21,7 +21,7 @@ const blogSchema = new Schema<IBlog>(
             type: String,
             required: true,
             trim: true,
-            unique:true
+            unique: true
         },
 
         content: {
@@ -44,6 +44,11 @@ const blogSchema = new Schema<IBlog>(
         likes: [{
             type: Schema.Types.ObjectId,
             ref: "User"
+        }],
+        
+        saves: [{
+            type: Schema.Types.ObjectId,
+            ref: 'User'
         }],
 
         countOfVisitors: {

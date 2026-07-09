@@ -1,4 +1,5 @@
-import { HydratedDocument, Model } from "mongoose";
+import { HydratedDocument, Model, type Types } from "mongoose";
+import type { IBlog } from "./blog.types.js";
 
 export interface IUser {
     username: string;
@@ -12,6 +13,8 @@ export interface IUser {
     isStaff: boolean;
     isAdmin: boolean;
     avatar: string;
+    likedBlogs: Types.ObjectId[] | IBlog[];
+    savedBlogs: Types.ObjectId[] | IBlog[];
 
     createdAt: Date;
     updatedAt: Date;
@@ -21,7 +24,7 @@ export interface IUser {
 
 export type UserDocument = HydratedDocument<IUser>;    // this bunu ifade ediyor. mongoose dan gelen document objesini
 
-export interface IUserModel extends Model<IUser> {}  // model icindeki methodlar icin yaziyoruz. findByEmail gibi. static methodlar icin.
+export interface IUserModel extends Model<IUser> { }  // model icindeki methodlar icin yaziyoruz. findByEmail gibi. static methodlar icin.
 
 
 export interface UserDTO {

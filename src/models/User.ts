@@ -68,7 +68,17 @@ const userSchema = new Schema<IUser, IUserModel>(
 
         avatar: {
             type: String
-        }
+        },
+
+        likedBlogs: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Blog'
+        }],
+
+        savedBlogs: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Blog'
+        }]
     },
     {
         timestamps: true

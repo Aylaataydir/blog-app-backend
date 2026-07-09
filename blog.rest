@@ -155,6 +155,15 @@ Authorization: {{accessToken}}
 
 
 
+###
+
+# @name blogPostSave
+post {{baseUrl}}/blogs/6a4b9bcc55e99f5ff99a158b/saveBlog
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+
+
 
 ###----------------------------------
 
