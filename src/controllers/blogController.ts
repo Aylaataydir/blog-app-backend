@@ -223,14 +223,16 @@ export const saveBlog = async (
 
     const userId = req.user._id.toString()
 
-    const alreadyLiked = blog.likes.some(id => id.toString() === userId)
+    const alreadySaved = blog.saves.some(id => id.toString() === userId)
+
+    console.log(alreadySaved)
 
     const session = await mongoose.startSession() 
 
     try {
         session.startTransaction()
 
-        if (alreadyLiked) {
+        if (alreadySaved) {
             await Blog.findByIdAndUpdate(
                 blog._id,
                 { $pull: { saves: userId } },
@@ -267,7 +269,7 @@ export const saveBlog = async (
 
     res.status(200).send({
         error: false,
-        liked: !alreadyLiked,
+        saved: !alreadySaved,
         blogId: blog._id
     })
 }

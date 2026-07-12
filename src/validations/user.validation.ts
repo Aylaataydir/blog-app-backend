@@ -99,14 +99,8 @@ export const changePasswordSchema = z
       .regex(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/,
         'Password must contain uppercase, lowercase, number and special character'
-      ),
-
-    confirmPassword: z.string().min(8),
+      )
   })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    message: 'Passwords do not match',
-    path: ['confirmPassword'],
-  });
 
 
   export type ChangePasswordInput = z.infer<typeof changePasswordSchema>

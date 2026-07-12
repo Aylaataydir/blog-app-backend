@@ -58,8 +58,8 @@ export const read = async (
 
     const data = await User.findById(req.params.id)
         .select('-password')
-        .populate('likedBlogs')
-        .populate('savedBlogs')
+        .populate('likedBlogs', "title image likes comments countOfVisitors")
+        .populate('savedBlogs', "title image likes comments countOfVisitors")
 
     if (!data) {
         throw new CustomError('User not found', 404);
@@ -67,7 +67,7 @@ export const read = async (
 
     res.status(200).send({
         error: false,
-        user: {
+        data: {
             ...toUserDTO(data),
             likedBlogs: data.likedBlogs as BlogDocument[],
             savedBlogs: data.savedBlogs as BlogDocument[],
