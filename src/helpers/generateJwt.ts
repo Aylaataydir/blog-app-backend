@@ -9,7 +9,7 @@ export const generateAccessToken = (user: UserDocument ) => {
     email: user.email,
   };
 
-  return jwt.sign(accessData, process.env.ACCESS_KEY as string, { expiresIn: '1d' });
+  return jwt.sign(accessData, process.env.ACCESS_KEY as string);
 };
 
 export const generateRefreshToken = (user: UserDocument) => {
